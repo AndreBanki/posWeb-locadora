@@ -3,9 +3,9 @@ package com.locadora.mb;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIInput;
 
 import com.locadora.dao.VeiculoDAO;
 import com.locadora.entidade.Veiculo;
@@ -14,43 +14,40 @@ import com.locadora.entidade.Veiculo;
 @ViewScoped
 public class VeiculoMB {
 	
-	//Declara o atributo veículo
 	private Veiculo veiculo;
-	//Declara e cria a lista de veiculos
-	private List<Veiculo> veiculos = new ArrayList<Veiculo>();
-	//Declara e cria DAO para acesso ao bando de dados
-	private VeiculoDAO dao = new VeiculoDAO();
+	private List<Veiculo> veiculos;
+	private VeiculoDAO dao;
 	
-	public VeiculoMB(){
-		//Chame método que instancia o objeto
-		limpaVeiculo();
+	@PostConstruct
+	public void init() {
+		dao = new VeiculoDAO();
+		atualizaListaVeiculosParaExibicao();
+	}
+	
+// métodos auxiliares
+	
+	private void atualizaListaVeiculosParaExibicao() {
+		veiculos = dao.listarTodos();
+		veiculo = new Veiculo();
+	}
 
-		//Busca os registros do BD através do veiculoDAO
-		veiculos = dao.lista();
-		
-		limpaVeiculo();
+// métodos para acesso ao BD	
+	
+	public void apagaVeiculo() {
+		dao.apagar(veiculo);
+		atualizaListaVeiculosParaExibicao();
 	}
 	
-	public void deletar() {
-		dao.deletar(veiculo);
-		veiculos = dao.lista();
-	}
-	
-	private void limpaVeiculo(){
-		//Instancia o objeto veiculo
-		veiculo= new Veiculo();
-	}
-	
-	public void insereVeiculo(){
-		if(veiculo.getId() == 0){
+	public void insereVeiculo() {
+		if (veiculo.getId() == 0) {
 			dao.inserir(veiculo);
-		}else{
+		} else {
 			dao.atualizar(veiculo);
 		}
-		veiculos = dao.lista();
-		//Chama o método para limpar o veículo;
-		limpaVeiculo();
+		atualizaListaVeiculosParaExibicao();
 	}
+	
+// getters e setters	
 	
 	public List<Veiculo> getVeiculos(){		
 		return veiculos;
@@ -63,6 +60,4 @@ public class VeiculoMB {
 	public void setVeiculo(Veiculo veiculo) {
 		this.veiculo = veiculo;
 	}
-	
-
 }

@@ -9,11 +9,16 @@ public class BaseDAO {
 	
 	protected static Connection con;
 	protected static Statement comando;
+	
+	static String DB_HOST = "localhost:3306";
+	static String DB_DATABASE = "locadora";
+	static String DB_USER = "root";
+	static String DB_PASSWORD = "";
 
 	protected static void conectar() {  
 		try {  
 			Class.forName("com.mysql.jdbc.Driver");  
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fln", "root", "1234");    
+			con = DriverManager.getConnection("jdbc:mysql://" + DB_HOST + "/" + DB_DATABASE, DB_USER, DB_PASSWORD);    
 			comando = con.createStatement();   
 		} catch (SQLException e) {  
 			e.printStackTrace();

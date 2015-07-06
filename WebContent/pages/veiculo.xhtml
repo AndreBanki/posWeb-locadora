@@ -21,7 +21,7 @@
 				<h:selectOneMenu value="#{veiculoMB.veiculo.transmissao}">
 					<f:selectItem itemLabel="Automático" itemValue="1" />
 					<f:selectItem itemLabel="Manual" itemValue="2" />
-					<f:selectItem itemLabel="Tip-tronic" itemValue="3" />
+					<f:selectItem itemLabel="Tiptronic" itemValue="3" />
 				</h:selectOneMenu>
 
 				<h:commandButton action="#{veiculoMB.insereVeiculo}" value="Salvar" />
@@ -45,7 +45,7 @@
 						<f:setPropertyActionListener value="#{v}"
 							target="#{veiculoMB.veiculo}" />
 					</h:commandButton>
-					<h:commandButton value="Deletar" action="#{veiculoMB.deletar}">
+					<h:commandButton value="Deletar" action="#{veiculoMB.apagaVeiculo}">
 						<f:setPropertyActionListener value="#{v}"
 							target="#{veiculoMB.veiculo}" />
 					</h:commandButton>
