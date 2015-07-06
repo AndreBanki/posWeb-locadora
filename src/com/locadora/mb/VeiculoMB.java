@@ -1,6 +1,5 @@
 package com.locadora.mb;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -14,7 +13,7 @@ import com.locadora.entidade.Veiculo;
 @ViewScoped
 public class VeiculoMB {
 	
-	private Veiculo veiculo;
+	private Veiculo veiculoEmEdicao;
 	private List<Veiculo> veiculos;
 	private VeiculoDAO dao;
 	
@@ -28,21 +27,21 @@ public class VeiculoMB {
 	
 	private void atualizaListaVeiculosParaExibicao() {
 		veiculos = dao.listarTodos();
-		veiculo = new Veiculo();
+		veiculoEmEdicao = new Veiculo();
 	}
 
 // métodos para acesso ao BD	
 	
-	public void apagaVeiculo() {
-		dao.apagar(veiculo);
+	public void apagarVeiculo() {
+		dao.apagar(veiculoEmEdicao);
 		atualizaListaVeiculosParaExibicao();
 	}
 	
-	public void insereVeiculo() {
-		if (veiculo.getId() == 0) {
-			dao.inserir(veiculo);
+	public void inserirVeiculo() {
+		if (veiculoEmEdicao.getId() == 0) {
+			dao.inserir(veiculoEmEdicao);
 		} else {
-			dao.atualizar(veiculo);
+			dao.atualizar(veiculoEmEdicao);
 		}
 		atualizaListaVeiculosParaExibicao();
 	}
@@ -53,11 +52,11 @@ public class VeiculoMB {
 		return veiculos;
 	}
 
-	public Veiculo getVeiculo() {
-		return veiculo;
+	public Veiculo getVeiculoEmEdicao() {
+		return veiculoEmEdicao;
 	}
 
-	public void setVeiculo(Veiculo veiculo) {
-		this.veiculo = veiculo;
+	public void setVeiculoEmEdicao(Veiculo veiculo) {
+		this.veiculoEmEdicao = veiculo;
 	}
 }

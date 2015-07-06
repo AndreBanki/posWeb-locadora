@@ -10,45 +10,36 @@
 <h:body>
 	<h:form id="frm">
 		<center>
-			<h:panelGrid columns="2">
-				<h:outputText value="Nome: " />
-				<p:inputText value="#{veiculoMB.veiculo.nome}" />
+			<p:panelGrid columns="2">
+				<h:outputText value="Nome: " /> 
+				<p:inputText value="#{veiculoMB.veiculoEmEdicao.nome}" />
 
 				<h:outputText value="Marca: " />
-				<h:inputText value="#{veiculoMB.veiculo.marca}" />
+				<p:inputText value="#{veiculoMB.veiculoEmEdicao.marca}" />
 
 				<h:outputText value="Transmissão: " />
-				<h:selectOneMenu value="#{veiculoMB.veiculo.transmissao}">
+				<p:selectOneMenu value="#{veiculoMB.veiculoEmEdicao.transmissao}">
 					<f:selectItem itemLabel="Automático" itemValue="1" />
 					<f:selectItem itemLabel="Manual" itemValue="2" />
 					<f:selectItem itemLabel="Tiptronic" itemValue="3" />
-				</h:selectOneMenu>
+				</p:selectOneMenu>
 
-				<h:commandButton action="#{veiculoMB.insereVeiculo}" value="Salvar" />
-			</h:panelGrid>
+				<p:commandButton action="#{veiculoMB.inserirVeiculo}" value="Salvar" />
+			</p:panelGrid>
 			<p:dataTable var="v" value="#{veiculoMB.veiculos}" widgetVar="carsTable">
-
-				<p:column filterBy="#{v.nome}" sortBy="#{v.nome}">
-					<f:facet name="header">Veículo</f:facet>
-				#{v.nome}
-				</p:column>
+				<p:column sortBy="#{v.nome}">
+					<f:facet name="header">Veículo</f:facet>#{v.nome}</p:column>
+				<p:column sortBy="#{v.marca}">
+					<f:facet name="header">Marca</f:facet>#{v.marca}</p:column>
+				<p:column sortBy="#{v.nomeTransmissao}">
+					<f:facet name="header">Transmissão</f:facet>#{v.nomeTransmissao}</p:column>
 				<p:column>
-					<f:facet name="header">Marca</f:facet>
-				#{v.marca}
-				</p:column>
-				<p:column>
-					<f:facet name="header">Transmissão</f:facet>
-				#{v.nomeTransmissao}
-				</p:column>
-				<p:column>
-					<h:commandButton value="Editar">
-						<f:setPropertyActionListener value="#{v}"
-							target="#{veiculoMB.veiculo}" />
-					</h:commandButton>
-					<h:commandButton value="Deletar" action="#{veiculoMB.apagaVeiculo}">
-						<f:setPropertyActionListener value="#{v}"
-							target="#{veiculoMB.veiculo}" />
-					</h:commandButton>
+					<p:commandButton value="Editar">
+						<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
+					</p:commandButton>
+					<p:commandButton value="Deletar" action="#{veiculoMB.apagarVeiculo}">
+						<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
+					</p:commandButton>
 				</p:column>
 			</p:dataTable>
 		</center>
