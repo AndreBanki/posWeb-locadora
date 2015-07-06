@@ -1,27 +1,23 @@
 package com.locadora.entidade;
 
-import java.sql.ResultSet;
-
 public class Veiculo {
 
 	private int id;
 	private String nome;
 	private String marca;
 	private int transmissao;
-
+	
 // lógica de negócio
 	
-	
+	public String nomeTransmissao1() { return "Automático"; }
+	public String nomeTransmissao2() { return "Manual"; }
+	public String nomeTransmissao3() { return "Tiptronic"; }
+
 	public String getNomeTransmissao() {
-		if (transmissao == 1){
-			return "Automático";
-		} else if (transmissao == 2) {
-			return "Manual";
-		} else if (transmissao == 3) {
-			return "Tiptronic";
-		} else {
-			return "Valor inválido";
-		}
+		if      (transmissao == 1) return nomeTransmissao1();
+		else if (transmissao == 2) return nomeTransmissao2();
+		else if (transmissao == 3) return nomeTransmissao3();
+		else                       return "Valor inválido";
 	}
 
 // setters e getters
