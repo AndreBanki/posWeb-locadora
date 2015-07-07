@@ -13,15 +13,20 @@
 		<p:dataTable var="v" value="#{veiculoMB.veiculos}" widgetVar="carsTable">
 			<f:facet name="header">Veículos</f:facet>
 			<p:column sortBy="#{v.nome}">
-				<f:facet name="header">Veículo</f:facet>#{v.nome}</p:column>
+				<f:facet name="header">Veículo</f:facet>
+				<p:commandLink update=":frm:editWidget" value="#{v.nome}" oncomplete="PF('editPanelWidget').show()">
+					<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
+				</p:commandLink>
+				</p:column>			
 			<p:column sortBy="#{v.marca}">
-				<f:facet name="header">Marca</f:facet>#{v.marca}</p:column>
+				<f:facet name="header">Marca</f:facet>
+				<p:commandLink update=":frm:editWidget" value="#{v.marca}" oncomplete="PF('editPanelWidget').show()">
+					<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
+				</p:commandLink>
+				</p:column>			
 			<p:column sortBy="#{v.nomeTransmissao}">
 				<f:facet name="header">Transmissão</f:facet>#{v.nomeTransmissao}</p:column>
-			<p:column width="100">
-				<p:commandButton update=":frm:editWidget" icon="ui-icon-circle-check" oncomplete="PF('editPanelWidget').show()">
-					<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
-				</p:commandButton>
+			<p:column width="50">
 				<p:commandButton icon="ui-icon-circle-minus" action="#{veiculoMB.apagarVeiculo}" onclick="PF('carsTable').show();">
 					<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
 				</p:commandButton>
