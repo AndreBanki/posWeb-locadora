@@ -38,12 +38,14 @@ public class VeiculoMB {
 	}
 	
 	public void inserirVeiculo() {
-		if (veiculoEmEdicao.getId() == 0) {
-			dao.inserir(veiculoEmEdicao);
-		} else {
-			dao.atualizar(veiculoEmEdicao);
+		if (veiculoEmEdicao.getNome() != null) {
+			if (veiculoEmEdicao.getId() == 0) {
+				dao.inserir(veiculoEmEdicao);
+			} else {
+				dao.atualizar(veiculoEmEdicao);
+			}
+			atualizaListaVeiculosParaExibicao();
 		}
-		atualizaListaVeiculosParaExibicao();
 	}
 	
 // getters e setters	

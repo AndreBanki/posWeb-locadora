@@ -9,7 +9,30 @@
 </h:head>
 <h:body>
 	<h:form id="frm"> 
-		<center>
+  		<center>
+		<p:dataTable var="v" value="#{veiculoMB.veiculos}" widgetVar="carsTable">
+			<f:facet name="header">Veículos</f:facet>
+			<p:column sortBy="#{v.nome}">
+				<f:facet name="header">Veículo</f:facet>#{v.nome}</p:column>
+			<p:column sortBy="#{v.marca}">
+				<f:facet name="header">Marca</f:facet>#{v.marca}</p:column>
+			<p:column sortBy="#{v.nomeTransmissao}">
+				<f:facet name="header">Transmissão</f:facet>#{v.nomeTransmissao}</p:column>
+			<p:column width="100">
+				<p:commandButton update=":frm:editWidget" icon="ui-icon-circle-check" oncomplete="PF('editPanelWidget').show()">
+					<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
+				</p:commandButton>
+				<p:commandButton icon="ui-icon-circle-minus" action="#{veiculoMB.apagarVeiculo}" onclick="PF('carsTable').show();">
+					<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+		</center>
+
+		<div align="left">
+			<p:commandButton id="adicionarBtn" value="Adicionar" onclick="PF('editPanelWidget').show();" type="button" />
+		</div>
+		<p:dialog id="editWidget" widgetVar="editPanelWidget" header="Veículo" modal="true" resizable="false">
 			<p:panelGrid columns="2">
 				<h:outputText value="Nome: " /> 
 				<p:inputText value="#{veiculoMB.veiculoEmEdicao.nome}" />
@@ -23,26 +46,13 @@
 					<f:selectItem itemLabel="#{veiculoMB.getVeiculoEmEdicao().nomeTransmissao2()}" itemValue="2" />
 					<f:selectItem itemLabel="#{veiculoMB.getVeiculoEmEdicao().nomeTransmissao3()}" itemValue="3" />
 				</p:selectOneMenu>
-
-				<p:commandButton action="#{veiculoMB.inserirVeiculo}" value="Salvar" />
 			</p:panelGrid>
-			<p:dataTable var="v" value="#{veiculoMB.veiculos}" widgetVar="carsTable">
-				<p:column sortBy="#{v.nome}">
-					<f:facet name="header">Veículo</f:facet>#{v.nome}</p:column>
-				<p:column sortBy="#{v.marca}">
-					<f:facet name="header">Marca</f:facet>#{v.marca}</p:column>
-				<p:column sortBy="#{v.nomeTransmissao}">
-					<f:facet name="header">Transmissão</f:facet>#{v.nomeTransmissao}</p:column>
-				<p:column>
-					<p:commandButton value="Editar">
-						<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
-					</p:commandButton>
-					<p:commandButton value="Deletar" action="#{veiculoMB.apagarVeiculo}">
-						<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
-					</p:commandButton>
-				</p:column>
-			</p:dataTable>
-		</center>
+			<br/>
+			<center>
+				<p:commandButton action="#{veiculoMB.inserirVeiculo}" value="Salvar" onclick="editPanelWidget.hide();return false;" />
+			</center>
+		</p:dialog>
+			
 	</h:form>
 </h:body>
 </html>
