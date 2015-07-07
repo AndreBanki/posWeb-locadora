@@ -10,7 +10,7 @@
 <h:body>
 	<h:form id="frm"> 
   		<center>
-		<p:dataTable var="v" value="#{veiculoMB.veiculos}" widgetVar="carsTable">
+		<p:dataTable var="v" value="#{veiculoMB.veiculos}" id="dataWidget" widgetVar="carsTable">
 			<f:facet name="header">Veículos</f:facet>
 			<p:column sortBy="#{v.nome}">
 				<f:facet name="header">Veículo</f:facet>
@@ -27,12 +27,23 @@
 			<p:column sortBy="#{v.nomeTransmissao}">
 				<f:facet name="header">Transmissão</f:facet>#{v.nomeTransmissao}</p:column>
 			<p:column width="50">
-				<p:commandButton icon="ui-icon-circle-minus" action="#{veiculoMB.apagarVeiculo}" onclick="PF('carsTable').show();">
+				<p:commandButton icon="ui-icon-circle-minus" onclick="PF('cd').show();">
 					<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
 				</p:commandButton>
 			</p:column>
 		</p:dataTable>
 		</center>
+		
+		<p:dialog id="cdWidget" widgetVar="cd" header="Veículo" modal="true" resizable="false">
+			<h:outputText value="Deseja apagar este veículo?" />
+			<br /><br />
+			<center>
+			<h:panelGrid columns="2">
+				<p:commandButton update=":frm:dataWidget" value="Sim" action="#{veiculoMB.apagarVeiculo}" oncomplete="PF('cd').hide();" />
+				<p:commandButton update=":frm:dataWidget" value="Não" action="#{veiculoMB.atualizaListaVeiculosParaExibicao()}" oncomplete="PF('cd').hide();" />
+			</h:panelGrid>
+			</center>	
+    	</p:dialog>
 
 		<div align="left">
 			<p:commandButton id="adicionarBtn" value="Adicionar" onclick="PF('editPanelWidget').show();" type="button" />

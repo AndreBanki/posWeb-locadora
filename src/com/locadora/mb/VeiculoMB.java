@@ -25,7 +25,7 @@ public class VeiculoMB {
 	
 // métodos auxiliares
 	
-	private void atualizaListaVeiculosParaExibicao() {
+	public void atualizaListaVeiculosParaExibicao() {
 		veiculos = dao.listarTodos();
 		veiculoEmEdicao = new Veiculo();
 	}
