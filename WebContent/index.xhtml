@@ -4,10 +4,11 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"> 
 
-<h:head></h:head> 
+<h:head>
+	<h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+</h:head> 
 <h:body>
-	<h:form>
-	<h:commandButton action="/pages/veiculo.jsf" value="Cadastro de Veículos" />
-	</h:form>
+	<ui:include src="/fragments/navbar.xhtml" />
+	<center><h1>Página principal</h1></center>
 </h:body> 
 </html>

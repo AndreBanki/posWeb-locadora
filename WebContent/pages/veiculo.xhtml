@@ -6,12 +6,14 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
+	<h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
 </h:head>
 <h:body>
+	<ui:include src="/fragments/navbar.xhtml" />
+
 	<h:form id="frm"> 
   		<center>
 		<p:dataTable var="v" value="#{veiculoMB.veiculos}" id="dataWidget" widgetVar="carsTable">
-			<f:facet name="header">Veículos</f:facet>
 			<p:column sortBy="#{v.nome}">
 				<f:facet name="header">Veículo</f:facet>
 				<p:commandLink update=":frm:editWidget" value="#{v.nome}" oncomplete="PF('editPanelWidget').show()">
