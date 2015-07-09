@@ -16,41 +16,41 @@
 		<p:dataTable var="v" value="#{veiculoMB.veiculos}" id="dataWidget" widgetVar="carsTable">
 			<p:column sortBy="#{v.nome}">
 				<f:facet name="header">Veículo</f:facet>
-				<p:commandLink update=":frm:editWidget" value="#{v.nome}" oncomplete="PF('editPanelWidget').show()">
+				<p:commandLink update=":frm:editaWidget" value="#{v.nome}" oncomplete="PF('editaDlg').show()">
 					<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
 			<p:column sortBy="#{v.marca}">
 				<f:facet name="header">Marca</f:facet>
-				<p:commandLink update=":frm:editWidget" value="#{v.marca}" oncomplete="PF('editPanelWidget').show()">
+				<p:commandLink update=":frm:editaWidget" value="#{v.marca}" oncomplete="PF('editaDlg').show()">
 					<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
 			<p:column sortBy="#{v.nomeTransmissao}">
 				<f:facet name="header">Transmissão</f:facet>#{v.nomeTransmissao}</p:column>
 			<p:column width="50">
-				<p:commandButton icon="ui-icon-circle-minus" onclick="PF('cd').show();">
+				<p:commandButton icon="ui-icon-circle-minus" onclick="PF('confirmaDlg').show();">
 					<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
 				</p:commandButton>
 			</p:column>
 		</p:dataTable>
 		</center>
+		<div align="left">
+			<p:commandButton id="adicionarBtn" value="Adicionar" onclick="PF('editaDlg').show();" type="button" />
+		</div>
 		
-		<p:dialog id="cdWidget" widgetVar="cd" header="Veículo" modal="true" resizable="false">
+		<p:dialog widgetVar="confirmaDlg" header="Veículo" modal="true" resizable="false">
 			<h:outputText value="Deseja apagar este veículo?" />
 			<br /><br />
 			<center>
 			<h:panelGrid columns="2">
-				<p:commandButton update=":frm:dataWidget" value="Sim" action="#{veiculoMB.apagarVeiculo}" oncomplete="PF('cd').hide();" />
-				<p:commandButton update=":frm:dataWidget" value="Não" action="#{veiculoMB.atualizaListaVeiculosParaExibicao()}" oncomplete="PF('cd').hide();" />
+				<p:commandButton update=":frm:dataWidget" value="Sim" action="#{veiculoMB.apagarVeiculo}" oncomplete="PF('confirmaDlg').hide();" />
+				<p:commandButton update=":frm:dataWidget" value="Não" action="#{veiculoMB.atualizaListaVeiculosParaExibicao()}" oncomplete="PF('confirmaDlg').hide();" />
 			</h:panelGrid>
 			</center>	
     	</p:dialog>
 
-		<div align="left">
-			<p:commandButton id="adicionarBtn" value="Adicionar" onclick="PF('editPanelWidget').show();" type="button" />
-		</div>
-		<p:dialog id="editWidget" widgetVar="editPanelWidget" header="Veículo" modal="true" resizable="false">
+		<p:dialog id="editaWidget" widgetVar="editaDlg" header="Veículo" modal="true" resizable="false">
 			<p:panelGrid columns="2">
 				<h:outputText value="Nome: " /> 
 				<p:inputText value="#{veiculoMB.veiculoEmEdicao.nome}" />
@@ -67,7 +67,7 @@
 			</p:panelGrid>
 			<br/>
 			<center>
-				<p:commandButton action="#{veiculoMB.inserirVeiculo}" value="Salvar" onclick="editPanelWidget.hide();return false;" />
+				<p:commandButton update=":frm:dataWidget" action="#{veiculoMB.inserirVeiculo}" value="Salvar" onclick="PF('editaDlg').hide();" />
 			</center>
 		</p:dialog>
 			
