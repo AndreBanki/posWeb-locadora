@@ -56,7 +56,9 @@
 				<p:inputText value="#{veiculoMB.veiculoEmEdicao.nome}" />
 
 				<h:outputText value="Marca: " />
-				<p:inputText value="#{veiculoMB.veiculoEmEdicao.marca}" />
+				<p:selectOneMenu value="#{veiculoMB.veiculoEmEdicao.marca}">
+    				<f:selectItems value="#{veiculoMB.listaNomesFabricantes()}" />
+				</p:selectOneMenu>
 
 				<h:outputText value="Transmissão: " />
 				<p:selectOneMenu value="#{veiculoMB.veiculoEmEdicao.transmissao}">
