@@ -22,7 +22,7 @@
 				</p:column>			
 			<p:column sortBy="#{v.marca}">
 				<f:facet name="header">Marca</f:facet>
-				<p:commandLink update=":frm:editaWidget" value="#{v.marca}" oncomplete="PF('editaDlg').show()">
+				<p:commandLink update=":frm:editaWidget" value="#{v.fabricante}" oncomplete="PF('editaDlg').show()">
 					<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
@@ -56,7 +56,7 @@
 				<p:inputText value="#{veiculoMB.veiculoEmEdicao.nome}" />
 
 				<h:outputText value="Marca: " />
-				<p:selectOneMenu value="#{veiculoMB.veiculoEmEdicao.marca}">
+				<p:selectOneMenu value="#{veiculoMB.veiculoEmEdicao.fabricante}">
     				<f:selectItems value="#{veiculoMB.listaNomesFabricantes()}" />
 				</p:selectOneMenu>
 

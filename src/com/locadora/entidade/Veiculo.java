@@ -4,7 +4,7 @@ public class Veiculo {
 
 	private int id;
 	private String nome;
-	private String marca;
+	private String fabricante;
 	private int transmissao;
 	
 // lógica de negócio
@@ -37,12 +37,12 @@ public class Veiculo {
 		this.nome = nome;
 	}
 	
-	public String getMarca() {
-		return marca;
+	public String getFabricante() {
+		return fabricante;
 	}
 	
-	public void setMarca(String marca) {
-		this.marca = marca;
+	public void setFabricante(String fabricante) {
+		this.fabricante = fabricante;
 	}
 	
 	public int getTransmissao() {

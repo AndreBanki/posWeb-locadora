@@ -5,9 +5,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.locadora.entidade.Fabricante;
 import com.locadora.entidade.Veiculo;
 
 public class VeiculoDAO extends BaseDAO {
+	
+	FabricanteDAO fabricanteDao;
 
 // métodos auxiliares
 	
@@ -15,7 +18,7 @@ public class VeiculoDAO extends BaseDAO {
 		try {
 			veiculo.setId(rs.getInt("id"));
 			veiculo.setNome(rs.getString("nome"));
-			veiculo.setMarca(rs.getString("marca"));
+			veiculo.setFabricante(rs.getString("nomefabricante"));
 			veiculo.setTransmissao(rs.getInt("transmissao"));
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -62,7 +65,9 @@ public class VeiculoDAO extends BaseDAO {
 		conectar();
 		List<Veiculo> lista = new ArrayList<Veiculo>();
 		try {
-			ResultSet rs = comando.executeQuery("select * from veiculo");
+			ResultSet rs = comando.executeQuery("select veiculo.id, veiculo.nome, fabricante.nome as nomefabricante, veiculo.transmissao"
+					                          + " from veiculo inner join fabricante"
+					                          + " on veiculo.idfabricante=fabricante.id");
 			while (rs.next()) {
 				Veiculo veiculo = new Veiculo();
 				setDadosVeiculoFromResultSet(veiculo, rs);
@@ -77,11 +82,14 @@ public class VeiculoDAO extends BaseDAO {
 	}
 		
 	public void inserir(Veiculo veiculo) {
+		FabricanteDAO fabricanteDao = new FabricanteDAO();
+		Fabricante fabricante = fabricanteDao.buscaPorNome(veiculo.getFabricante());
+		
 		conectar();
 		try {
-			comando.execute("insert into veiculo (nome, marca, transmissao) values ('" 
-		                     + veiculo.getNome() + "', '"
-					         + veiculo.getMarca() + "', "
+			comando.execute("insert into veiculo (nome, idfabricante, transmissao) values ('" 
+		                     + veiculo.getNome() + "', "
+					         + fabricante.getId() + ", "
 		                     + veiculo.getTransmissao() + ")"
 		                    );
 		} catch (SQLException e) {
@@ -92,12 +100,15 @@ public class VeiculoDAO extends BaseDAO {
 	}
 		
 	public void atualizar(Veiculo veiculo) {
+		FabricanteDAO fabricanteDao = new FabricanteDAO();
+		Fabricante fabricante = fabricanteDao.buscaPorNome(veiculo.getFabricante());
+
 		conectar();
 		try{
 			comando.execute("update veiculo set nome = '" + veiculo.getNome() 
-			                 + "', marca = '" + veiculo.getMarca()
-			                 + "', transmissao = '" + veiculo.getTransmissao()
-			                 + "' where id = " + veiculo.getId()
+			                 + "', idfabricante = " + fabricante.getId()
+			                 + ", transmissao = " + veiculo.getTransmissao()
+			                 + " where id = " + veiculo.getId()
 			                );
 		} catch(SQLException e) {
 			e.printStackTrace();
