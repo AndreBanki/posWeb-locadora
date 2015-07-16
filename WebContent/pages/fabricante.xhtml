@@ -61,14 +61,15 @@
 		<h:form id="formEdita">
 			<p:panelGrid columns="2">
 				<h:outputText value="Nome: " /> 
-				<p:inputText value="#{fabricanteMB.fabricanteEmEdicao.nome}" />
+				<p:inputText id="nome" value="#{fabricanteMB.fabricanteEmEdicao.nome}" required="true" />
 			</p:panelGrid>
+			<p:message for="nome" />
 			<br/>
 			<center>
 				<p:commandButton value="Salvar" 
-				                 update=":formMain:dataWidget" process="@form" 
+				                 update=":formMain:dataWidget, formEdita" process="@form" 
 				                 action="#{fabricanteMB.inserirFabricante}" 
-				                 onclick="PF('editaDlg').hide();" />
+				                 oncomplete="if (!args.validationFailed){PF('editaDlg').hide()}" />
 			</center>
 		</h:form>
 	</p:dialog>

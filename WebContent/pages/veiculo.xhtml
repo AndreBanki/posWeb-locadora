@@ -71,7 +71,7 @@
 		<h:form id="formEdita">
 			<p:panelGrid columns="2">
 				<h:outputText value="Nome: " /> 
-				<p:inputText value="#{veiculoMB.veiculoEmEdicao.nome}" />
+				<p:inputText id="nome" value="#{veiculoMB.veiculoEmEdicao.nome}" required="true" />
 
 				<h:outputText value="Marca: " />
 				<p:selectOneMenu value="#{veiculoMB.veiculoEmEdicao.fabricante}">
@@ -85,11 +85,13 @@
 					<f:selectItem itemLabel="#{veiculoMB.getVeiculoEmEdicao().nomeTransmissao3()}" itemValue="3" />
 				</p:selectOneMenu>
 			</p:panelGrid>
+			<p:message for="nome" />
 			<br/>
 			<center>
-				<p:commandButton update=":formMain:dataWidget" process="@form" value="Salvar"
+				<p:commandButton value="Salvar"
+				                 update=":formMain:dataWidget, formEdita" process="@form" 
 				                 action="#{veiculoMB.inserirVeiculo}"  
-				                 onclick="PF('editaDlg').hide();" />
+				                 oncomplete="if (!args.validationFailed){PF('editaDlg').hide()}" />
 			</center>
 		</h:form>
 	</p:dialog>
