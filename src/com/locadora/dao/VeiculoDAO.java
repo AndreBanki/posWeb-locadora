@@ -59,6 +59,27 @@ public class VeiculoDAO extends BaseDAO {
 		return veiculo;
 	}
 		
+	public List<Veiculo> listaPorFabricante(int idFabricante) {
+		conectar();
+		List<Veiculo> lista = new ArrayList<Veiculo>();
+		try {
+			ResultSet rs = comando.executeQuery("select veiculo.id, veiculo.nome, fabricante.nome as nomefabricante, veiculo.transmissao"
+                    + " from veiculo inner join fabricante"
+                    + " on veiculo.idfabricante=fabricante.id"
+                    + " where veiculo.idfabricante=" + idFabricante);
+			while (rs.next()) {
+				Veiculo veiculo = new Veiculo();
+				setDadosVeiculoFromResultSet(veiculo, rs);
+				lista.add(veiculo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			fechar();
+		}
+		return lista;
+	}
+	
 // métodos CRUD	
 	
 	public List<Veiculo> listarTodos() {
