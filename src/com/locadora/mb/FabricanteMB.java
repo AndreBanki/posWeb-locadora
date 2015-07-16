@@ -39,22 +39,24 @@ public class FabricanteMB {
 		fabricanteEmEdicao = new Fabricante();
 	}
 	
-	private boolean podeApagarFabricanteEmEdicao() {
+	private List<Veiculo> veiculosDoFabricanteEmEdicao() {
 		VeiculoDAO veiculoDao = new VeiculoDAO();
 		List<Veiculo> veiculosDoFabricante = veiculoDao.listaPorFabricante(fabricanteEmEdicao.getId());
-		return veiculosDoFabricante.isEmpty();
+		return veiculosDoFabricante;
 	}
 
 // métodos para acesso ao BD	
 	
 	public void apagarFabricante() {
-		if (podeApagarFabricanteEmEdicao()) {
+		List<Veiculo> veiculosDoFabricante = veiculosDoFabricanteEmEdicao();
+		if (veiculosDoFabricante.isEmpty()) {
 			dao.apagar(fabricanteEmEdicao);
 			atualizaListaFabricantesParaExibicao();
 		}
 		else {
 			RequestContext context = RequestContext.getCurrentInstance();
-			context.execute("alert('Não é possível excluir este fabricante')");
+			String JScommand = "alert('Este fabricante possui " + veiculosDoFabricante.size() + " veículo(s) cadastrado(s). Não é possível excluí-lo.');";
+			context.execute(JScommand);
 			limpaFabricanteEmEdicao();
 		}
 	}
