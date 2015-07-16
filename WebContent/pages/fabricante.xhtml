@@ -11,48 +11,67 @@
 <h:body>
 	<ui:include src="/fragments/navbar.xhtml" />
 
-	<h:form id="frm"> 
+	<h:form id="formMain"> 
   		<center>
 		<p:dataTable var="v" value="#{fabricanteMB.fabricantes}" id="dataWidget" widgetVar="carsTable">
 			<p:column sortBy="#{v.nome}">
 				<f:facet name="header">Veículo</f:facet>
-				<p:commandLink update=":frm:editaWidget" value="#{v.nome}" oncomplete="PF('editaDlg').show()">
+				<p:commandLink value="#{v.nome}" 
+				               update=":editaWidget" process="@form" 
+				               oncomplete="PF('editaDlg').show()">
 					<f:setPropertyActionListener value="#{v}" target="#{fabricanteMB.fabricanteEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
 			<p:column width="50">
-				<p:commandButton icon="ui-icon-circle-minus" onclick="PF('confirmaDlg').show();">
+				<p:commandButton icon="ui-icon-circle-minus" 
+				                 process="@form" 
+				                 onclick="PF('confirmaDlg').show();">
 					<f:setPropertyActionListener value="#{v}" target="#{fabricanteMB.fabricanteEmEdicao}" />
 				</p:commandButton>
 			</p:column>
 		</p:dataTable>
 		</center>
 		<div align="left">
-			<p:commandButton id="adicionarBtn" value="Adicionar" onclick="PF('editaDlg').show();" type="button" />
+			<p:commandButton id="adicionarBtn" value="Adicionar" 
+			                 process="@form" type="button"
+			                 onclick="PF('editaDlg').show();" />
 		</div>
+	</h:form>
 		
-		<p:dialog widgetVar="confirmaDlg" header="Fabricante" modal="true" resizable="false">
+	<p:dialog widgetVar="confirmaDlg" header="Fabricante" modal="true" resizable="false">
+		<h:form id="formConfirma">
 			<h:outputText value="Deseja apagar este fabricante?" />
 			<br /><br />
 			<center>
 			<h:panelGrid columns="2">
-				<p:commandButton update=":frm:dataWidget" value="Sim" action="#{fabricanteMB.apagarFabricante}" oncomplete="PF('confirmaDlg').hide();" />
-				<p:commandButton update=":frm:dataWidget" value="Não" action="#{fabricanteMB.atualizaListaFabricantesParaExibicao()}" oncomplete="PF('confirmaDlg').hide();" />
+				<p:commandButton value="Sim" 
+				                 update=":formMain:dataWidget" process="@form" 
+				                 action="#{fabricanteMB.apagarFabricante}" 
+				                 oncomplete="PF('confirmaDlg').hide();" />
+				<p:commandButton value="Não" 
+				                 update=":formMain:dataWidget" process="@form" 
+				                 action="#{fabricanteMB.atualizaListaFabricantesParaExibicao()}" 
+				                 oncomplete="PF('confirmaDlg').hide();" />
 			</h:panelGrid>
 			</center>	
-    	</p:dialog>
+    	</h:form>
+    </p:dialog>
 
-		<p:dialog id="editaWidget" widgetVar="editaDlg" header="Fabricante" modal="true" resizable="false">
+	<p:dialog id="editaWidget" widgetVar="editaDlg" header="Fabricante" modal="true" resizable="false">
+		<h:form id="formEdita">
 			<p:panelGrid columns="2">
 				<h:outputText value="Nome: " /> 
 				<p:inputText value="#{fabricanteMB.fabricanteEmEdicao.nome}" />
 			</p:panelGrid>
 			<br/>
 			<center>
-				<p:commandButton update=":frm:dataWidget" action="#{fabricanteMB.inserirFabricante}" value="Salvar" onclick="PF('editaDlg').hide();" />
+				<p:commandButton value="Salvar" 
+				                 update=":formMain:dataWidget" process="@form" 
+				                 action="#{fabricanteMB.inserirFabricante}" 
+				                 onclick="PF('editaDlg').hide();" />
 			</center>
-		</p:dialog>
+		</h:form>
+	</p:dialog>
 			
-	</h:form>
 </h:body>
 </html>
