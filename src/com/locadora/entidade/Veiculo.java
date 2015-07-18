@@ -6,6 +6,7 @@ public class Veiculo {
 	private String nome;
 	private String fabricante;
 	private int transmissao;
+	private int ano;
 	
 // lógica de negócio
 	
@@ -52,4 +53,11 @@ public class Veiculo {
 	public void setTransmissao(int transmissao) {
 		this.transmissao = transmissao;
 	}
+	public int getAno() {
+		return ano;
+	}
+	public void setAno(int ano) {
+		this.ano = ano;
+	}
+	
 }

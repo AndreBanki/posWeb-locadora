@@ -30,6 +30,14 @@
 					<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
+			<p:column sortBy="#{v.ano}">
+				<f:facet name="header">Ano</f:facet>
+				<p:commandLink value="#{v.ano}" 
+				               update=":editaWidget" process="@form" 
+				               oncomplete="PF('editaDlg').show()">
+					<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
+				</p:commandLink>
+				</p:column>			
 			<p:column sortBy="#{v.nomeTransmissao}">
 				<f:facet name="header">Transmissão</f:facet>#{v.nomeTransmissao}</p:column>
 			<p:column width="50">
@@ -70,13 +78,20 @@
 		<h:form id="formEdita">
 			<p:panelGrid columns="2">
 				<h:outputText value="Nome: " /> 
-				<p:inputText id="nome" value="#{veiculoMB.veiculoEmEdicao.nome}" required="true" />
+				<p:inputText id="nome" value="#{veiculoMB.veiculoEmEdicao.nome}" 
+				             required="true" requiredMessage="Nome deve ser informado." />
 
 				<h:outputText value="Marca: " />
 				<p:selectOneMenu value="#{veiculoMB.veiculoEmEdicao.fabricante}">
     				<f:selectItems value="#{veiculoMB.listaNomesFabricantes()}" />
 				</p:selectOneMenu>
 
+				<h:outputText value="Ano: " /> 
+				<p:inputText id="ano" value="#{veiculoMB.veiculoEmEdicao.ano}" 
+				             converterMessage="O ano deve estar entre 1900 e 2020." 
+				             required="true" requiredMessage="O ano deve ser informado.">
+					<f:convertNumber maxIntegerDigits="4" integerOnly="true" pattern="0000" />
+				</p:inputText>	
 				<h:outputText value="Transmissão: " />
 				<p:selectOneMenu value="#{veiculoMB.veiculoEmEdicao.transmissao}">
 					<f:selectItem itemLabel="#{veiculoMB.getVeiculoEmEdicao().nomeTransmissao1()}" itemValue="1" />
@@ -84,7 +99,7 @@
 					<f:selectItem itemLabel="#{veiculoMB.getVeiculoEmEdicao().nomeTransmissao3()}" itemValue="3" />
 				</p:selectOneMenu>
 			</p:panelGrid>
-			<p:message for="nome" />
+			<p:messages />
 			<br/>
 			<center>
 				<p:commandButton value="Salvar"

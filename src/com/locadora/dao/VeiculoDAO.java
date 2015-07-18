@@ -20,6 +20,7 @@ public class VeiculoDAO extends BaseDAO {
 			veiculo.setNome(rs.getString("nome"));
 			veiculo.setFabricante(rs.getString("nomefabricante"));
 			veiculo.setTransmissao(rs.getInt("transmissao"));
+			veiculo.setAno(rs.getInt("ano"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -63,7 +64,7 @@ public class VeiculoDAO extends BaseDAO {
 		conectar();
 		List<Veiculo> lista = new ArrayList<Veiculo>();
 		try {
-			ResultSet rs = comando.executeQuery("select veiculo.id, veiculo.nome, fabricante.nome as nomefabricante, veiculo.transmissao"
+			ResultSet rs = comando.executeQuery("select veiculo.id, veiculo.nome, fabricante.nome as nomefabricante, veiculo.transmissao, veiculo.ano"
                     + " from veiculo inner join fabricante"
                     + " on veiculo.idfabricante=fabricante.id"
                     + " where veiculo.idfabricante=" + idFabricante);
@@ -86,7 +87,7 @@ public class VeiculoDAO extends BaseDAO {
 		conectar();
 		List<Veiculo> lista = new ArrayList<Veiculo>();
 		try {
-			ResultSet rs = comando.executeQuery("select veiculo.id, veiculo.nome, fabricante.nome as nomefabricante, veiculo.transmissao"
+			ResultSet rs = comando.executeQuery("select veiculo.id, veiculo.nome, fabricante.nome as nomefabricante, veiculo.transmissao, veiculo.ano"
 					                          + " from veiculo inner join fabricante"
 					                          + " on veiculo.idfabricante=fabricante.id");
 			while (rs.next()) {
@@ -108,10 +109,11 @@ public class VeiculoDAO extends BaseDAO {
 		
 		conectar();
 		try {
-			comando.execute("insert into veiculo (nome, idfabricante, transmissao) values ('" 
+			comando.execute("insert into veiculo (nome, idfabricante, transmissao, ano) values ('" 
 		                     + veiculo.getNome() + "', "
 					         + fabricante.getId() + ", "
-		                     + veiculo.getTransmissao() + ")"
+		                     + veiculo.getTransmissao() + ", "
+		                     + veiculo.getAno() + ")"
 		                    );
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -129,6 +131,7 @@ public class VeiculoDAO extends BaseDAO {
 			comando.execute("update veiculo set nome = '" + veiculo.getNome() 
 			                 + "', idfabricante = " + fabricante.getId()
 			                 + ", transmissao = " + veiculo.getTransmissao()
+			                 + ", ano = " + veiculo.getAno()
 			                 + " where id = " + veiculo.getId()
 			                );
 		} catch(SQLException e) {
