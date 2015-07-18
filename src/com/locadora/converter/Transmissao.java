@@ -1,6 +1,7 @@
 package com.locadora.converter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.component.UIComponent;
@@ -13,8 +14,18 @@ public class Transmissao implements Converter {
 	
 	private int value;
 	
+	public static List<String> listaTransmissoes = new ArrayList<String>(Arrays.asList(
+		"Automático", 
+		"Manual", 
+		"Tiptronic"
+	));
+	
+	private int nTransmissoes() {
+		return listaTransmissoes.size();
+	}
+	
 	public Transmissao() {
-		this.value = 0;
+		this.value = 1;
 	}
 	
 	public Transmissao(int value) {
@@ -22,38 +33,22 @@ public class Transmissao implements Converter {
 	}
 	
 	public Transmissao(String str) {
-		if (str.equals("Automático"))
-			this.value = 1;
-		else if (str.equals("Manual"))
-			this.value = 2;
-		else if (str.equals("Tiptronic"))
-			this.value = 3;
+		for (int i=1; i <= nTransmissoes(); i++) {
+			if (listaTransmissoes.get(i-1).equals(str))
+				this.value = i;
+		}
 	}
 
 	public String asString() {
 		String s = new String();
-		
-		if (value == 1)
-			s = "Automático";
-		else if (value == 2)
-			s = "Manual";
-		else if (value == 3)
-			s = "Tiptronic";
-
+		if (value <= nTransmissoes())
+			s = listaTransmissoes.get(value-1);
 		return s;
-		
-	}
-	
-	private int primeiro() {
-		return 1;
-	}
-	private int ultimo() {
-		return 3;
 	}
 	
 	public List<Transmissao> listaOpcoes() {
 		List<Transmissao> lista = new ArrayList<Transmissao>();
-		for (int i=primeiro(); i <= ultimo(); i++) {
+		for (int i=1; i <= nTransmissoes(); i++) {
 			lista.add(new Transmissao(i));
 		}
 		return lista;
