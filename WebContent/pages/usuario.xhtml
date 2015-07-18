@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+	template="/fragments/template.xhtml">
+
+<ui:define name="conteudo">
+	<h:form>
+		<h:dataTable value="#{usuarioMB.usuarios}" var="usu">
+			<h:column>
+				<f:facet name="header" >ID</f:facet>
+				#{usu.id}
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header" >Nome</f:facet>
+				#{usu.nome}
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header" >E-mail</f:facet>
+				#{usu.email}
+			</h:column>
+			
+			<h:column>
+				<h:commandButton value="Editar" >
+					<f:setPropertyActionListener value="#{usu}" target="#{usuarioMB.usuario}" />
+				</h:commandButton>
+				<h:commandButton action="#{usuarioMB.excluir}" value="Excluir" >
+					<f:setPropertyActionListener value="#{usu}" target="#{usuarioMB.usuario}" />
+				</h:commandButton>
+			</h:column>
+		</h:dataTable>
+		<h:panelGrid columns="3">
+			<h:outputText value="Nome: " />
+			<h:inputText id="inNome" value="#{usuarioMB.usuario.nome}" />
+			<h:message for="inNome"/>
+			
+			<h:outputText value="E-mail: " />
+			<h:inputText id="inEmail" value="#{usuarioMB.usuario.email}" validatorMessage="E-mail inválido!" >
+				<f:validateRegex pattern="^([0-9a-zA-Z]+([_.-]?[0-9a-zA-Z]+)*@[0-9a-zA-Z]+[0-9,a-z,A-Z,.,-]*(.){1}[a-zA-Z]{2,4})+$" />
+			</h:inputText>
+			<h:message for="inEmail"/>
+			
+			<h:outputText value="Senha: " />
+			<h:inputText id="inSenha" value="#{usuarioMB.usuario.senha}" />
+			<h:message for="inSenha"/>
+		</h:panelGrid>
+		<h:commandButton action="#{usuarioMB.salvar}" value="Salvar" />
+	</h:form>
+</ui:define>
+</ui:composition>

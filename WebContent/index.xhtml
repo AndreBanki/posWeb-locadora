@@ -1,10 +1,48 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-	template="/fragments/template.xhtml"> 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-<ui:define name="conteudo">
-	<center><h1>Página principal</h1></center>
-</ui:define>
-</ui:composition>
+<h:head>
+	<h:outputStylesheet library="css" name="style.css" />
+</h:head>	
+<h:body>	
+	<div class="wrapper">
+		<div class="container">
+		
+			<h1>Locadora</h1>
+
+			<h:form styleClass="form">
+				<h:inputText a:placeholder="fill me" id="inEmail"
+					value="#{autenticacaoMB.email}" required="true"
+					requiredMessage="E-mail obrigatório!" />
+				<h:message for="inEmail" />
+
+				<h:inputSecret id="inSenha" value="#{autenticacaoMB.senha}"
+					required="true" requiredMessage="Senha obrigatória!" />
+				<h:message for="inSenha" />
+				<h:commandButton action="#{autenticacaoMB.autentica()}"
+					value="Entrar" />
+			</h:form>
+		
+		</div>
+
+		<ul class="bg-bubbles">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+	<h:outputScript library="js" name="jquery.js" />
+	<h:outputScript library="js" src="index.js" />
+</h:body>
+</html>
