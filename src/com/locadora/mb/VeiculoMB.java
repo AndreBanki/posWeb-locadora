@@ -8,6 +8,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.context.RequestContext;
+
 import com.locadora.dao.FabricanteDAO;
 import com.locadora.dao.VeiculoDAO;
 import com.locadora.entidade.Fabricante;
@@ -57,14 +59,19 @@ public class VeiculoMB {
 	}
 	
 	public void inserirVeiculo() {
-		if (veiculoEmEdicao.getNome() != null) {
-			if (veiculoEmEdicao.getId() == 0) {
-				dao.inserir(veiculoEmEdicao);
-			} else {
-				dao.atualizar(veiculoEmEdicao);
-			}
-			atualizaListaVeiculosParaExibicao();
+		Veiculo veiculoMesmoNome = dao.buscaPorNome(veiculoEmEdicao.getNome());
+		if (veiculoMesmoNome != null) {
+			RequestContext context = RequestContext.getCurrentInstance();
+			String JScommand = "alert('Já existe um veiculo com este nome.');";
+			context.execute(JScommand);
 		}
+		else {		
+			if (veiculoEmEdicao.getId() == 0) 
+				dao.inserir(veiculoEmEdicao);
+			else 
+				dao.atualizar(veiculoEmEdicao);
+		}
+		atualizaListaVeiculosParaExibicao();
 	}
 	
 // getters e setters	

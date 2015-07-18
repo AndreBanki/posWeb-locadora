@@ -44,7 +44,7 @@ public class FabricanteMB {
 		List<Veiculo> veiculosDoFabricante = veiculoDao.listaPorFabricante(fabricanteEmEdicao.getId());
 		return veiculosDoFabricante;
 	}
-
+	
 // métodos para acesso ao BD	
 	
 	public void apagarFabricante() {
@@ -62,14 +62,19 @@ public class FabricanteMB {
 	}
 	
 	public void inserirFabricante() {
-		if (fabricanteEmEdicao.getNome() != null) {
-			if (fabricanteEmEdicao.getId() == 0) {
-				dao.inserir(fabricanteEmEdicao);
-			} else {
-				dao.atualizar(fabricanteEmEdicao);
-			}
-			atualizaListaFabricantesParaExibicao();
+		Fabricante fabricanteMesmoNome = dao.buscaPorNome(fabricanteEmEdicao.getNome());
+		if (fabricanteMesmoNome != null) {
+			RequestContext context = RequestContext.getCurrentInstance();
+			String JScommand = "alert('Já existe um fabricante com este nome.');";
+			context.execute(JScommand);
 		}
+		else {
+			if (fabricanteEmEdicao.getId() == 0)
+				dao.inserir(fabricanteEmEdicao);
+			else 
+				dao.atualizar(fabricanteEmEdicao);
+		}
+		atualizaListaFabricantesParaExibicao();
 	}
 	
 // getters e setters	
