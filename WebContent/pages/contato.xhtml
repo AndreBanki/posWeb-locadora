@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+	template="/fragments/template.xhtml">
+
+<ui:define name="conteudo">
+	<center>
+	<h:form>
+		<h:panelGrid columns="2">
+			<h:outputText value="De: " /> 
+			<h:inputText id="from" value="#{contatoMB.from}" disabled="true" readonly="true"/>
+			<h:outputText value="Para: " /> 
+			<h:inputText id="to" value="#{contatoMB.to}" required="true" />
+			<h:outputText value="Assunto: " /> 
+			<h:inputText id="assunto" value="#{contatoMB.subject}" required="true" />
+			<h:outputText value="Conteúdo: " /> 
+			<h:inputTextarea id="conteudo" rows="10" value="#{contatoMB.content}" />
+		</h:panelGrid>
+		<h:messages />
+		<p:commandButton value="Enviar" 
+		                 action="#{contatoMB.enviar}"/>
+	</h:form>
+	</center>
+</ui:define>
+</ui:composition>

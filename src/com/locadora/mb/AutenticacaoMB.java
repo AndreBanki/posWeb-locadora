@@ -35,6 +35,7 @@ public class AutenticacaoMB {
 				HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
 				//Inclui o ID do usuário na sessão
 				session.setAttribute("idUsuario", u.getId());
+				session.setAttribute("emailUsuario", u.getEmail());
 				
 				//Direciona para página de veículo
 				return "/pages/veiculo.jsf";
