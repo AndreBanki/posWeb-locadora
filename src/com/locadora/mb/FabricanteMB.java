@@ -74,7 +74,7 @@ public class FabricanteMB {
 	
 	public void inserirFabricante() {
 		Fabricante fabricanteMesmoNome = fabricanteMesmoNome(fabricanteEmEdicao);
-		if (fabricanteMesmoNome.getId() != 0) {
+		if (fabricanteMesmoNome.getId() != fabricanteEmEdicao.getId()) {
 			RequestContext context = RequestContext.getCurrentInstance();
 			context.addCallbackParam("jaExisteNome", true);
 		}

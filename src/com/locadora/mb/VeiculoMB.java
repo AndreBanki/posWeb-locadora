@@ -70,7 +70,7 @@ public class VeiculoMB {
 	
 	public void inserirVeiculo() {
 		Veiculo veiculoMesmoNome = veiculoMesmoNome(veiculoEmEdicao);
-		if (veiculoMesmoNome.getId() != 0) {
+		if (veiculoMesmoNome.getId() != veiculoEmEdicao.getId()) {
 			RequestContext context = RequestContext.getCurrentInstance();
 			context.addCallbackParam("jaExisteNome", true);
 		}
