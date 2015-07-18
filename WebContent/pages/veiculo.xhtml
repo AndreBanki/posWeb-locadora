@@ -88,9 +88,11 @@
 
 				<h:outputText value="Ano: " /> 
 				<p:inputText id="ano" value="#{veiculoMB.veiculoEmEdicao.ano}" 
-				             converterMessage="O ano deve estar entre 1900 e 2020." 
+				             converterMessage="O ano deve estar entre 1900 e 2020."
+				             validatorMessage="O ano deve estar entre 1900 e 2020." 
 				             required="true" requiredMessage="O ano deve ser informado.">
-					<f:convertNumber maxIntegerDigits="4" integerOnly="true" pattern="0000" />
+					<f:convertNumber integerOnly="true" pattern="0000" />
+					<f:validateLongRange minimum="1900" maximum="2020" />
 				</p:inputText>	
 				<h:outputText value="Transmissão: " />
 				<p:selectOneMenu value="#{veiculoMB.veiculoEmEdicao.transmissao}">
@@ -105,10 +107,21 @@
 				<p:commandButton value="Salvar"
 				                 update=":formMain:dataWidget, formEdita" process="@form" 
 				                 action="#{veiculoMB.inserirVeiculo}"  
-				                 oncomplete="if (!args.validationFailed){PF('editaDlg').hide()}" />
+				                 oncomplete="handleSaveRequest(xhr, status, args)" />
 			</center>
 		</h:form>
 	</p:dialog>
+			
+    <h:outputScript target="head">
+		function handleSaveRequest(xhr, status, args) {  
+           if (!args.validationFailed) { 
+   				if (args.jaExisteNome) 
+               		alert('Já existe um veículo com este nome.');	 
+				else
+					PF('editaDlg').hide();             
+           }
+   		}  
+	</h:outputScript>
 			
 </h:body>
 </html>

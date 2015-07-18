@@ -55,7 +55,7 @@
 			</center>	
     	</h:form>
     </p:dialog>
-
+    
 	<p:dialog id="editaWidget" widgetVar="editaDlg" header="Fabricante" modal="true" resizable="false">
 		<h:form id="formEdita">
 			<p:panelGrid columns="2">
@@ -68,10 +68,21 @@
 				<p:commandButton value="Salvar" 
 				                 update=":formMain:dataWidget, formEdita" process="@form" 
 				                 action="#{fabricanteMB.inserirFabricante}" 
-				                 oncomplete="if (!args.validationFailed){PF('editaDlg').hide()}" />
+				                 oncomplete="handleSaveRequest(xhr, status, args)" />
 			</center>
 		</h:form>
 	</p:dialog>
+
+    <h:outputScript target="head">
+		function handleSaveRequest(xhr, status, args) {  
+           if (!args.validationFailed) { 
+   				if (args.jaExisteNome) 
+               		alert('Já existe um fabricante com este nome.');	 
+				else
+					PF('editaDlg').hide();             
+           }
+   		}  
+	</h:outputScript>
 			
 </h:body>
 </html>

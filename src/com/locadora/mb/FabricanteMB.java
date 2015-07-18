@@ -1,5 +1,6 @@
 package com.locadora.mb;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -45,6 +46,16 @@ public class FabricanteMB {
 		return veiculosDoFabricante;
 	}
 	
+	private Fabricante fabricanteMesmoNome(Fabricante fabricante) {
+		Fabricante fabIgual = new Fabricante();
+		for (Iterator<Fabricante> iterator = fabricantes.iterator(); iterator.hasNext() && fabIgual.getId() == 0; ) {    
+			Fabricante f = (Fabricante) iterator.next();    
+			if (f.getNome().equals(fabricante.getNome()))
+				fabIgual = f;
+		}
+		return fabIgual;
+	}	
+	
 // métodos para acesso ao BD	
 	
 	public void apagarFabricante() {
@@ -62,19 +73,18 @@ public class FabricanteMB {
 	}
 	
 	public void inserirFabricante() {
-		Fabricante fabricanteMesmoNome = dao.buscaPorNome(fabricanteEmEdicao.getNome());
-		if (fabricanteMesmoNome != null) {
+		Fabricante fabricanteMesmoNome = fabricanteMesmoNome(fabricanteEmEdicao);
+		if (fabricanteMesmoNome.getId() != 0) {
 			RequestContext context = RequestContext.getCurrentInstance();
-			String JScommand = "alert('Já existe um fabricante com este nome.');";
-			context.execute(JScommand);
+			context.addCallbackParam("jaExisteNome", true);
 		}
 		else {
 			if (fabricanteEmEdicao.getId() == 0)
 				dao.inserir(fabricanteEmEdicao);
 			else 
 				dao.atualizar(fabricanteEmEdicao);
+			atualizaListaFabricantesParaExibicao();
 		}
-		atualizaListaFabricantesParaExibicao();
 	}
 	
 // getters e setters	

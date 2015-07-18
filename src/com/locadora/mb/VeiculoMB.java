@@ -50,6 +50,16 @@ public class VeiculoMB {
 		}  
 		return nomes;
 	}
+	
+	private Veiculo veiculoMesmoNome(Veiculo veiculo) {
+		Veiculo veiculoIgual = new Veiculo();
+		for (Iterator<Veiculo> iterator = veiculos.iterator(); iterator.hasNext() && veiculoIgual.getId() == 0; ) {    
+			Veiculo v = (Veiculo) iterator.next();    
+			if (v.getNome().equals(veiculo.getNome()))
+				veiculoIgual = v;
+		}
+		return veiculoIgual;
+	}	
 
 // métodos para acesso ao BD	
 	
@@ -59,19 +69,18 @@ public class VeiculoMB {
 	}
 	
 	public void inserirVeiculo() {
-		Veiculo veiculoMesmoNome = dao.buscaPorNome(veiculoEmEdicao.getNome());
-		if (veiculoMesmoNome != null) {
+		Veiculo veiculoMesmoNome = veiculoMesmoNome(veiculoEmEdicao);
+		if (veiculoMesmoNome.getId() != 0) {
 			RequestContext context = RequestContext.getCurrentInstance();
-			String JScommand = "alert('Já existe um veiculo com este nome.');";
-			context.execute(JScommand);
+			context.addCallbackParam("jaExisteNome", true);
 		}
-		else {		
+		else {
 			if (veiculoEmEdicao.getId() == 0) 
 				dao.inserir(veiculoEmEdicao);
 			else 
 				dao.atualizar(veiculoEmEdicao);
+			atualizaListaVeiculosParaExibicao();
 		}
-		atualizaListaVeiculosParaExibicao();
 	}
 	
 // getters e setters	
