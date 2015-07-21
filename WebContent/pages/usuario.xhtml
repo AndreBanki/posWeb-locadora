@@ -2,51 +2,101 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
 	template="/fragments/template.xhtml">
 
 <ui:define name="conteudo">
-	<h:form>
-		<h:dataTable value="#{usuarioMB.usuarios}" var="usu">
-			<h:column>
-				<f:facet name="header" >ID</f:facet>
-				#{usu.id}
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header" >Nome</f:facet>
-				#{usu.nome}
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header" >E-mail</f:facet>
-				#{usu.email}
-			</h:column>
-			
-			<h:column>
-				<h:commandButton value="Editar" >
-					<f:setPropertyActionListener value="#{usu}" target="#{usuarioMB.usuario}" />
-				</h:commandButton>
-				<h:commandButton action="#{usuarioMB.excluir}" value="Excluir" >
-					<f:setPropertyActionListener value="#{usu}" target="#{usuarioMB.usuario}" />
-				</h:commandButton>
-			</h:column>
-		</h:dataTable>
-		<h:panelGrid columns="3">
-			<h:outputText value="Nome: " />
-			<h:inputText id="inNome" value="#{usuarioMB.usuario.nome}" />
-			<h:message for="inNome"/>
-			
-			<h:outputText value="E-mail: " />
-			<h:inputText id="inEmail" value="#{usuarioMB.usuario.email}" validatorMessage="E-mail inválido!" >
-				<f:validateRegex pattern="^([0-9a-zA-Z]+([_.-]?[0-9a-zA-Z]+)*@[0-9a-zA-Z]+[0-9,a-z,A-Z,.,-]*(.){1}[a-zA-Z]{2,4})+$" />
-			</h:inputText>
-			<h:message for="inEmail"/>
-			
-			<h:outputText value="Senha: " />
-			<h:inputText id="inSenha" value="#{usuarioMB.usuario.senha}" />
-			<h:message for="inSenha"/>
-		</h:panelGrid>
-		<h:commandButton action="#{usuarioMB.salvar}" value="Salvar" />
+	<h:form id="formMain"> 
+  		<center>
+		<p:dataTable var="u" value="#{usuarioMB.usuarios}" id="dataWidget" widgetVar="carsTable">
+			<p:column sortBy="#{u.nome}">
+				<f:facet name="header">Nome</f:facet>
+				<p:commandLink value="#{u.nome}" 
+				               update=":editaWidget" process="@form" 
+				               oncomplete="PF('editaDlg').show()">
+					<f:setPropertyActionListener value="#{u}" target="#{usuarioMB.usuarioEmEdicao}" />
+				</p:commandLink>
+				</p:column>			
+			<p:column sortBy="#{u.email}">
+				<f:facet name="header">E-mail</f:facet>
+				<p:commandLink value="#{u.email}" 
+				               update=":editaWidget" process="@form" 
+				               oncomplete="PF('editaDlg').show()">
+					<f:setPropertyActionListener value="#{u}" target="#{usuarioMB.usuarioEmEdicao}" />
+				</p:commandLink>
+				</p:column>			
+			<p:column width="50">
+				<p:commandButton icon="ui-icon-circle-minus" 
+				                 process="@form" 
+				                 onclick="PF('confirmaDlg').show();">
+					<f:setPropertyActionListener value="#{u}" target="#{usuarioMB.usuarioEmEdicao}" />
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+		</center>
+		<div align="left">
+			<p:commandButton id="adicionarBtn" value="Adicionar" 
+			                 process="@form" type="button"
+			                 onclick="PF('editaDlg').show();" />
+		</div>
 	</h:form>
+
+	<p:dialog widgetVar="confirmaDlg" header="Usuário" modal="true" resizable="false">
+		<h:form id="formConfirma">
+			<h:outputText value="Deseja apagar este usuário?" />
+			<br /><br />
+			<center>
+			<h:panelGrid columns="2">
+				<p:commandButton value="Sim" 
+				                 update=":formMain:dataWidget" process="@form" 
+				                 action="#{usuarioMB.apagarUsuario}" 
+				                 oncomplete="PF('confirmaDlg').hide();" />
+				<p:commandButton value="Não" 
+				                 update=":formMain:dataWidget" process="@form" 
+				                 oncomplete="PF('confirmaDlg').hide();" />
+			</h:panelGrid>
+			</center>	
+    	</h:form>
+    </p:dialog>
+    
+	<p:dialog id="editaWidget" widgetVar="editaDlg" header="Usuário" modal="true" resizable="false">
+		<h:form id="formEdita">
+			<p:panelGrid columns="2">
+				<h:outputText value="Nome: " /> 
+				<p:inputText id="nome" value="#{usuarioMB.usuarioEmEdicao.nome}" 
+				             required="true" />
+				<h:outputText value="E-mail: " />
+				<p:inputText id="inEmail" value="#{usuarioMB.usuarioEmEdicao.email}" 
+				             required="true" validatorMessage="E-mail inválido" >
+					<f:validateRegex pattern="^([0-9a-zA-Z]+([_.-]?[0-9a-zA-Z]+)*@[0-9a-zA-Z]+[0-9,a-z,A-Z,.,-]*(.){1}[a-zA-Z]{2,4})+$" />
+				</p:inputText>
+				<h:outputText value="Senha: " />
+				<p:password id="inSenha" value="#{usuarioMB.usuarioEmEdicao.senha}" 
+				            feedback="true" required="true" 
+				            promptLabel="Informe sua senha" 
+				            weakLabel="Fraca" goodLabel="Razoável" strongLabel="Boa"/>
+			</p:panelGrid>
+			<p:messages />
+			<br/>
+			<center>
+				<p:commandButton value="Salvar" 
+				                 update=":formMain:dataWidget, formEdita" process="@form" 
+				                 action="#{usuarioMB.inserirUsuario}" 
+				                 oncomplete="handleSaveRequest(xhr, status, args)" />
+			</center>
+		</h:form>
+	</p:dialog>    
+    
+    <h:outputScript target="head">
+		function handleSaveRequest(xhr, status, args) {  
+           if (!args.validationFailed) { 
+   				if (args.jaExisteEmail) 
+               		alert('Já existe um usuário com este e-mail.');	 
+				else
+					PF('editaDlg').hide();             
+           }
+   		}  
+	</h:outputScript>
+	
 </ui:define>
 </ui:composition>

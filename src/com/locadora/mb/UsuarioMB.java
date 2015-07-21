@@ -1,13 +1,12 @@
 package com.locadora.mb;
 
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
 
 import com.locadora.dao.UsuarioDAO;
 import com.locadora.entidade.Usuario;
@@ -17,34 +16,58 @@ import com.locadora.entidade.Usuario;
 public class UsuarioMB {
 
 	private List<Usuario> usuarios;
-	private Usuario usuario;
-	private UsuarioDAO usuarioDAO = new UsuarioDAO();
+	private Usuario usuarioEmEdicao;
+	private UsuarioDAO dao;
 	
 	public UsuarioMB(){
-		usuarios = new ArrayList<Usuario>();
-		limpaUsuario();
+		dao = new UsuarioDAO();
+		atualizaListaUsuariosParaExibicao();
 	}
 	
-	public void salvar() throws NoSuchAlgorithmException{
+// métodos auxiliares	
+	
+	public void atualizaListaUsuariosParaExibicao() {
+		usuarios = dao.lista();
+		limpaUsuarioEmEdicao();
+	}
+	
+	private void limpaUsuarioEmEdicao(){
+		usuarioEmEdicao = new Usuario();
+	}
+	
+	private Usuario usuarioMesmoEmail(Usuario usuario) {
+		Usuario usuIgual = new Usuario();
+		for (Iterator<Usuario> iterator = usuarios.iterator(); iterator.hasNext() && usuIgual.getId() == 0; ) {    
+			Usuario u = (Usuario) iterator.next();    
+			if (u.getNome().equals(usuario.getNome()))
+				usuIgual = u;
+		}
+		return usuIgual;
+	}		
 
-		usuarioDAO.inserir(usuario);
-		
-		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Salvo com sucesso!", ""));
-		
-		
-		limpaUsuario();		
+// métodos CRUD	
+	
+	public void inserirUsuario() {
+		Usuario usuarioMesmoEmail = usuarioMesmoEmail(usuarioEmEdicao);
+		if (usuarioMesmoEmail.getId() != usuarioEmEdicao.getId()) {
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.addCallbackParam("jaExisteEmail", true);
+		}
+		else {
+			if (usuarioEmEdicao.getId() == 0)
+				dao.inserir(usuarioEmEdicao);
+			else 
+				dao.atualizar(usuarioEmEdicao);
+			atualizaListaUsuariosParaExibicao();
+		}
 	}
 	
-	public void excluir(){
-		usuarioDAO.deletar(usuario);
-		limpaUsuario();		
+	public void apagarUsuario(){
+		dao.deletar(usuarioEmEdicao);
+		atualizaListaUsuariosParaExibicao();		
 	}
 	
-	private void limpaUsuario(){
-		usuario = new Usuario();
-		usuarios = usuarioDAO.lista();
-	}
+// getters e setters	
 	
 	public List<Usuario> getUsuarios() {
 		return usuarios;
@@ -52,11 +75,11 @@ public class UsuarioMB {
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
 	}
-	public Usuario getUsuario() {
-		return usuario;
+	public Usuario getUsuarioEmEdicao() {
+		return usuarioEmEdicao;
 	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setUsuarioEmEdicao(Usuario usuario) {
+		this.usuarioEmEdicao = usuario;
 	}
 	
 	
