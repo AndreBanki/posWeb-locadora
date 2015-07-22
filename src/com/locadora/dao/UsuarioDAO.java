@@ -21,6 +21,7 @@ public class UsuarioDAO extends BaseDAO {
 				usuario.setNome(rs.getString("nome"));
 				usuario.setEmail(rs.getString("email"));
 				usuario.setSenha(rs.getString("senha"));
+				usuario.getPerfil().setValue(rs.getInt("perfil"));
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -43,6 +44,7 @@ public class UsuarioDAO extends BaseDAO {
 				usuario.setNome(rs.getString("nome"));
 				usuario.setEmail(rs.getString("email"));
 				usuario.setSenha(rs.getString("senha"));
+				usuario.getPerfil().setValue(rs.getInt("perfil"));
 				lista.add(usuario);
 			}
 
@@ -59,11 +61,14 @@ public class UsuarioDAO extends BaseDAO {
 		Usuario usuario = new Usuario();
 		try {
 			ResultSet rs;
-			rs = comando.executeQuery("select id, nome from usuario where id= "+id);
+			rs = comando.executeQuery("select * from usuario where id= "+id);
 
 			while (rs.next()) {
 				usuario.setId(rs.getInt("id"));
 				usuario.setNome(rs.getString("nome"));
+				usuario.setEmail(rs.getString("email"));
+				usuario.setSenha(rs.getString("senha"));
+				usuario.getPerfil().setValue(rs.getInt("perfil"));
 			}
 
 		} catch (SQLException e) {
@@ -77,8 +82,11 @@ public class UsuarioDAO extends BaseDAO {
 	public void inserir(Usuario usuario){
 		conectar();
 		try {
-			comando.execute("insert into usuario (nome, email, senha) values ('"+usuario.getNome()+
-					"', '"+usuario.getEmail()+"', '"+usuario.getSenha()+"')");
+			comando.execute("insert into usuario (nome, email, senha, perfil) values ('" + 
+		                    usuario.getNome() + "', '" + 
+					        usuario.getEmail() + "', '" + 
+		                    usuario.getSenha() + "', " +
+                            usuario.getPerfil().getValue() + ")");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{
@@ -89,7 +97,11 @@ public class UsuarioDAO extends BaseDAO {
 	public void atualizar(Usuario usuario){
 		conectar();
 		try{
-			comando.execute("update usuario set nome = '"+usuario.getNome()+"' where id = "+usuario.getId());
+			comando.execute("update usuario set nome = '" + usuario.getNome() + 
+					        "', email = '" + usuario.getEmail() +
+					        "', senha = '" + usuario.getSenha() +
+					        "', perfil = " + usuario.getPerfil().getValue() +
+					        " where id = "+usuario.getId());
 		}catch(SQLException e){
 			e.printStackTrace();
 		}finally{

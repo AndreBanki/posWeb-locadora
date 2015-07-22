@@ -1,6 +1,6 @@
 package com.locadora.entidade;
 
-
+import com.locadora.converter.PerfilUsuario;
 
 public class Usuario {
 	
@@ -8,6 +8,16 @@ public class Usuario {
 	private String nome;
 	private String email;
 	private String senha;
+	private PerfilUsuario perfil;
+	
+	public Usuario() {
+		this.id = 0;
+		this.nome = "";
+		this.email = "";
+		this.senha = "";
+		this.perfil = new PerfilUsuario();
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -32,6 +42,10 @@ public class Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
-	
+	public PerfilUsuario getPerfil() {
+		return perfil;
+	}
+	public void setPerfil(PerfilUsuario perfil) {
+		this.perfil = perfil;
+	}
 }

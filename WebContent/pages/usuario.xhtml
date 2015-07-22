@@ -25,6 +25,14 @@
 					<f:setPropertyActionListener value="#{u}" target="#{usuarioMB.usuarioEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
+			<p:column sortBy="#{u.perfil.asString()}">
+				<f:facet name="header">Perfil</f:facet>
+				<p:commandLink value="#{u.perfil.asString()}" 
+				               update=":editaWidget" process="@form" 
+				               oncomplete="PF('editaDlg').show()">
+					<f:setPropertyActionListener value="#{u}" target="#{usuarioMB.usuarioEmEdicao}" />
+				</p:commandLink>
+				</p:column>			
 			<p:column width="50">
 				<p:commandButton icon="ui-icon-circle-minus" 
 				                 process="@form" 
@@ -61,7 +69,7 @@
     
 	<p:dialog id="editaWidget" widgetVar="editaDlg" header="Usuário" modal="true" resizable="false">
 		<h:form id="formEdita">
-			<p:panelGrid columns="2">
+			<h:panelGrid columns="2">
 				<h:outputText value="Nome: " /> 
 				<p:inputText id="nome" value="#{usuarioMB.usuarioEmEdicao.nome}" 
 				             required="true" />
@@ -70,12 +78,17 @@
 				             required="true" validatorMessage="E-mail inválido" >
 					<f:validateRegex pattern="^([0-9a-zA-Z]+([_.-]?[0-9a-zA-Z]+)*@[0-9a-zA-Z]+[0-9,a-z,A-Z,.,-]*(.){1}[a-zA-Z]{2,4})+$" />
 				</p:inputText>
+				<h:outputText value="Perfil: " />
+				<p:selectOneMenu value="#{usuarioMB.usuarioEmEdicao.perfil}" converter="perfilConverter">
+					<f:selectItems value="#{usuarioMB.usuarioEmEdicao.perfil.listaOpcoes()}" 
+					               var="t" itemLabel="#{t.asString()}" itemValue="#{t}" />
+    			</p:selectOneMenu>				
 				<h:outputText value="Senha: " />
 				<p:password id="inSenha" value="#{usuarioMB.usuarioEmEdicao.senha}" 
 				            feedback="true" required="true" 
 				            promptLabel="Informe sua senha" 
 				            weakLabel="Fraca" goodLabel="Razoável" strongLabel="Boa"/>
-			</p:panelGrid>
+			</h:panelGrid>
 			<p:messages />
 			<br/>
 			<center>
