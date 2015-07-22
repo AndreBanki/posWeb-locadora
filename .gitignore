@@ -102,3 +102,5 @@ Desktop.ini
 # Gradle Wrapper
 ######################
 !gradle/wrapper/gradle-wrapper.jar
+/.tern-project
+/WebContent/WEB-INF/.faces-config.xml.jsfdia
