@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+	template="/fragments/template.xhtml">
+
+<ui:define name="conteudo">
+	<center>
+		<h:form id="formEdita">
+			<h:panelGrid columns="2">
+				<h:outputText value="Nome: " /> 
+				<p:inputText id="nome" value="#{perfilMB.usuarioEmEdicao.nome}" 
+				             required="true" />
+				<h:outputText value="E-mail: " />
+				<h:inputText id="inEmail" value="#{perfilMB.usuarioEmEdicao.email}" 
+				             disabled="true" readonly="true"/>
+				<h:outputText value="Nova senha: " />
+				<p:password id="pwd1" value="#{perfilMB.usuarioEmEdicao.senha}" match="pwd2" 
+							feedback="true" required="true" 
+							validationMessage="Senha inválida"
+				            promptLabel="Informe sua senha" 
+				            weakLabel="Fraca" goodLabel="Razoável" strongLabel="Boa"/>
+				<h:outputText value="Repita a senha: " />
+				<p:password id="pwd2" value="#{perfilMB.usuarioEmEdicao.senha}" 
+							feedback="true" required="true" 
+							validationMessage="Senha inválida"
+				            promptLabel="Informe sua senha novamente" 
+				            weakLabel="Fraca" goodLabel="Razoável" strongLabel="Boa"/>
+ 			</h:panelGrid>
+ 			<p:messages />
+			<br/>
+			<center>
+				<p:commandButton value="Salvar" id="saveBtn"
+				                 update="formEdita" process="@form" 
+				                 action="#{perfilMB.atualizarUsuario}" />
+			</center>
+		</h:form>
+	</center>
+</ui:define>
+</ui:composition>

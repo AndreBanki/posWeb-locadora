@@ -3,5 +3,3 @@ FALTA:
 * Internacionalizar
 * Trocar mensagens por growl
 * ver goo.gl/zXjyrA
-* criar pagina para trocar a senha
-* testar p:watermark nos edits
