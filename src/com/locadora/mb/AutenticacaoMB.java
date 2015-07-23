@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import com.locadora.converter.PerfilUsuario;
 import com.locadora.dao.UsuarioDAO;
 import com.locadora.entidade.Usuario;
+import com.locadora.util.Cripto;
 
 @ManagedBean
 @SessionScoped
@@ -31,6 +32,10 @@ public class AutenticacaoMB {
 			//para retornar o objeto usuario
 			Usuario u = dao.buscaPorEmail(email);
 			
+			//Criptografa a senha digitada pelo usuario
+			Cripto c = new Cripto();
+			senha = c.encript(senha);
+
 			//Verifica se buscou um usuário e se a senha é
 			//igual ao digitado na tela index
 			if(u.getId() != 0 && this.senha.equals(u.getSenha())){

@@ -1,11 +1,13 @@
 package com.locadora.dao;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.locadora.entidade.Usuario;
+import com.locadora.util.Cripto;
 
 public class UsuarioDAO extends BaseDAO {
 
@@ -79,13 +81,24 @@ public class UsuarioDAO extends BaseDAO {
 		return usuario;
 	}
 	
+	private String criptografaSenha(Usuario usuario) {
+		String senha = new String();
+		Cripto c = new Cripto();
+		try {
+			senha = c.encript(usuario.getSenha());
+		} catch (NoSuchAlgorithmException e1) {
+			e1.printStackTrace();
+		}
+		return senha;
+	}	
+	
 	public void inserir(Usuario usuario){
 		conectar();
 		try {
 			comando.execute("insert into usuario (nome, email, senha, perfil) values ('" + 
 		                    usuario.getNome() + "', '" + 
 					        usuario.getEmail() + "', '" + 
-		                    usuario.getSenha() + "', " +
+					        criptografaSenha(usuario) + "', " +
                             usuario.getPerfil().getValue() + ")");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -99,7 +112,7 @@ public class UsuarioDAO extends BaseDAO {
 		try{
 			comando.execute("update usuario set nome = '" + usuario.getNome() + 
 					        "', email = '" + usuario.getEmail() +
-					        "', senha = '" + usuario.getSenha() +
+					        "', senha = '" + criptografaSenha(usuario) +
 					        "', perfil = " + usuario.getPerfil().getValue() +
 					        " where id = "+usuario.getId());
 		}catch(SQLException e){

@@ -1,5 +1,3 @@
 FALTA: 
-* Criptografar senha
 * Internacionalizar
 * Trocar mensagens por growl
-* ver goo.gl/zXjyrA
