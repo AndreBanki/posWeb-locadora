@@ -13,7 +13,7 @@
 				<f:facet name="header">Veículo</f:facet>
 				<p:commandLink value="#{v.nome}" 
 				               update=":editaWidget" process="@form" 
-				               oncomplete="PF('editaDlg').show()">
+				               oncomplete="if (#{autenticacaoMB.permiteEdicao}) PF('editaDlg').show()">
 					<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
@@ -21,7 +21,7 @@
 				<f:facet name="header">Marca</f:facet>
 				<p:commandLink value="#{v.fabricante}" 
 				               update=":editaWidget" process="@form" 
-				               oncomplete="PF('editaDlg').show()">
+				               oncomplete="if (#{autenticacaoMB.permiteEdicao}) PF('editaDlg').show()">
 					<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
@@ -29,15 +29,16 @@
 				<f:facet name="header">Ano</f:facet>
 				<p:commandLink value="#{v.ano}" 
 				               update=":editaWidget" process="@form" 
-				               oncomplete="PF('editaDlg').show()">
+				               oncomplete="if (#{autenticacaoMB.permiteEdicao}) PF('editaDlg').show()">
 					<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
 			<p:column sortBy="#{v.transmissao.asString()}">
 				<f:facet name="header">Transmissão</f:facet>#{v.transmissao.asString()}</p:column>
-			<p:column width="50">
+			<p:column rendered="#{autenticacaoMB.permiteEdicao}" width="50">
 				<p:commandButton icon="ui-icon-circle-minus" 
-				                 process="@form" 
+				                 process="@form"
+				                 rendered="#{autenticacaoMB.permiteEdicao}" 
 				                 onclick="PF('confirmaDlg').show();">
 					<f:setPropertyActionListener value="#{v}" target="#{veiculoMB.veiculoEmEdicao}" />
 				</p:commandButton>
@@ -47,6 +48,7 @@
 		<div align="left">
 			<p:commandButton id="adicionarBtn" value="Adicionar" 
 			                 process="@form" type="button"
+			                 rendered="#{autenticacaoMB.permiteEdicao}"
 			                 onclick="PF('editaDlg').show();" />
 		</div>
 	</h:form>	

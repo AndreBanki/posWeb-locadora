@@ -1,22 +1,25 @@
 package com.locadora.mb;
 
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.locadora.converter.PerfilUsuario;
 import com.locadora.dao.UsuarioDAO;
 import com.locadora.entidade.Usuario;
 
 @ManagedBean
+@SessionScoped
 public class AutenticacaoMB {
 
 	private String email, senha;
+	
+	private Boolean acessoCadastroUsuarios;
+	private Boolean permiteEdicao;
 	
 	public String autentica() throws NoSuchAlgorithmException{
 		//Retorna o contexto da aplicação
@@ -36,6 +39,19 @@ public class AutenticacaoMB {
 				//Inclui o ID do usuário na sessão
 				session.setAttribute("idUsuario", u.getId());
 				session.setAttribute("emailUsuario", u.getEmail());
+				
+				// Estabelece as permissões no sistema
+				PerfilUsuario perfil = u.getPerfil();
+				if (perfil.getValue() == PerfilUsuario.ADMIN) {
+					this.acessoCadastroUsuarios = true;
+					this.permiteEdicao = true;
+				} else if (perfil.getValue() == PerfilUsuario.USER) {
+					this.acessoCadastroUsuarios = false;
+					this.permiteEdicao = true;
+				} else {
+					this.acessoCadastroUsuarios = false;
+					this.permiteEdicao = false;
+				}
 				
 				//Direciona para página de veículo
 				return "/pages/veiculo.jsf";
@@ -74,6 +90,21 @@ public class AutenticacaoMB {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
+
+	public Boolean getAcessoCadastroUsuarios() {
+		return acessoCadastroUsuarios;
+	}
+
+	public void setAcessoCadastroUsuarios(Boolean acessoCadastroUsuarios) {
+		this.acessoCadastroUsuarios = acessoCadastroUsuarios;
+	}
+
+	public Boolean getPermiteEdicao() {
+		return permiteEdicao;
+	}
+
+	public void setPermiteEdicao(Boolean permiteEdicao) {
+		this.permiteEdicao = permiteEdicao;
+	}
 	
 }

@@ -6,7 +6,7 @@
 	template="/fragments/template.xhtml">
 
 <ui:define name="conteudo">
-	<h:form id="formMain"> 
+	<h:form id="formMain" rendered="#{autenticacaoMB.acessoCadastroUsuarios}"> 
   		<center>
 		<p:dataTable var="u" value="#{usuarioMB.usuarios}" id="dataWidget" widgetVar="carsTable">
 			<p:column sortBy="#{u.nome}">
@@ -110,6 +110,6 @@
            }
    		}  
 	</h:outputScript>
-	
+
 </ui:define>
 </ui:composition>

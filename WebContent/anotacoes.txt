@@ -3,5 +3,5 @@ FALTA:
 * Internacionalizar
 * Trocar mensagens por growl
 * ver goo.gl/zXjyrA
-* criar perfil Admin/User no usuário e tratar permissões
-* ciar pagina para trocar a senha
+* criar pagina para trocar a senha
+* testar p:watermark nos edits

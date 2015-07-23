@@ -13,14 +13,15 @@
 				<f:facet name="header">Veículo</f:facet>
 				<p:commandLink value="#{v.nome}" 
 				               update=":editaWidget" process="@form" 
-				               oncomplete="PF('editaDlg').show()">
+				               oncomplete="if (#{autenticacaoMB.permiteEdicao}) PF('editaDlg').show()">
 					<f:setPropertyActionListener value="#{v}" target="#{fabricanteMB.fabricanteEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
-			<p:column width="50">
+			<p:column rendered="#{autenticacaoMB.permiteEdicao}" width="50">
 				<p:commandButton icon="ui-icon-circle-minus" 
-				                 process="@form" 
-				                 onclick="PF('confirmaDlg').show();">
+				                 process="@form"
+				                 rendered="#{autenticacaoMB.permiteEdicao}" 
+				                 onclick="if (#{autenticacaoMB.permiteEdicao}) PF('confirmaDlg').show();">
 					<f:setPropertyActionListener value="#{v}" target="#{fabricanteMB.fabricanteEmEdicao}" />
 				</p:commandButton>
 			</p:column>
@@ -29,6 +30,7 @@
 		<div align="left">
 			<p:commandButton id="adicionarBtn" value="Adicionar" 
 			                 process="@form" type="button"
+			                 rendered="#{autenticacaoMB.permiteEdicao}"
 			                 onclick="PF('editaDlg').show();" />
 		</div>
 	</h:form>

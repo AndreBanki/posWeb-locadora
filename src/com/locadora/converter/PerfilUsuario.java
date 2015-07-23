@@ -14,6 +14,10 @@ public class PerfilUsuario implements Converter {
 	
 	private int value;
 	
+	public static int ADMIN = 1;
+	public static int USER = 2;
+	public static int GUEST = 3;
+	
 	public static List<String> listaOpcoes = new ArrayList<String>(Arrays.asList(
 		"Admin", 
 		"User", 
